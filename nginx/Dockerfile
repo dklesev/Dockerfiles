@@ -9,3 +9,7 @@ run		apt-get install -y nginx
 #add		proxy.conf /etc/nginx/
 #add		local		/etc/nginx/site-available/
 #run		ln -s /etc/nginx/site-available/local /etc/nginx/site-enabled/local
+
+expose	443
+
+cmd		service start nginx
