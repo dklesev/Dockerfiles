@@ -3,6 +3,8 @@ Dockerfiles
 
 Use with Docker http://www.docker.io
 
+Please note several of these entries are still in development
+
 To build an image with docker is pretty simple:
 
     cd casperjs
