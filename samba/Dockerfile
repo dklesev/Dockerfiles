@@ -1,9 +1,13 @@
+#samba
 
 from	ubuntu
 
-#apt-get --no-install-recommends install samba
-#apt-get install samba-common-bin smbclient (?samba server?)
-##apt-get remove exim4* 
+run		apt-get install -y --no-install-recommends samba
 
-#add	smb.conf
-#add	/etc/samba/smbpasswd
+#add	smb.conf /etc/samba/
+#add	smbusers /etc/samba/
+
+#volume ["/data"]
+
+cmd		smbd -D ; nmbd -D ; tail -f /var/log/samba/log.smbd
+

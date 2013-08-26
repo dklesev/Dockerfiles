@@ -8,9 +8,9 @@ from	ubuntu:precise
 run	echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
 run	apt-get install -y python-software-properties
 
-run	add-apt-repository ppa:chris-lea/node.js
+run	add-apt-repository ppa:chris-lea/node.js && apt-get update
 
-run	apt-get update && apt-get install -q -y git nodejs
+run	apt-get install -y git nodejs
 
 run	git clone https://github.com/prawnsalad/KiwiIRC.git
 
