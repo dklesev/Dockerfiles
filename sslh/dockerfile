@@ -1,0 +1,26 @@
+# sslh
+
+# https://github.com/yrutschle/sslh
+# http://linux.die.net/man/7/capabilities
+
+from ubuntu
+
+apt-get install libwrap0-dev libconfig8-dev wget
+
+#build-essential
+#run wget http://www.rutschle.net/tech/sslh-1.15.tar.gz
+
+run wget http://ftp5.gwdg.de/pub/linux/archlinux/community/os/x86_64/sslh-1.15-1-x86_64.pkg.tar.xz
+
+run tar -xvf sslh-1.15-1-x86_64.pkg.tar.xz etc/sslh.conf
+run tar -xvf sslh-1.15-1-x86_64.pkg.tar.xz usr/bin/sslh
+run tar -xvf sslh-1.15-1-x86_64.pkg.tar.xz usr/bin/sslh-fork
+run tar -xvf sslh-1.15-1-x86_64.pkg.tar.xz usr/bin/sslh-select
+
+
+# /etc/sslh.conf ?
+
+# sed thelonious/example.net
+#
+
+# --transparent
