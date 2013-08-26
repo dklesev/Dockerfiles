@@ -8,14 +8,17 @@ run     add-apt-repository ppa:jcfp/ppa && apt-get update
 
 run		apt-get install -y sabnzbdplus
 
+#mount --bind remote_downloads_path
 #volume	["/downloads"]
 
-#mount remote downloads path
+#add	sabnzbd.ini /root/.sabnzbd/
 
-#add	sabnzbd.ini
+# sed /etc/default/sabnzbdplus
+# USER= 
+# HOST=
+# PORT=
+# EXTRAOPTS=
 
-# echo "" > /etc/default/sabnzbdplus
+expose	9090
 
-#expose	9090
-
-#cmd	service sabnzbdplus start
+#cmd	service sabnzbdplus start ; tail -f /root/.sabnzbd/logs/sabnzbd.log
