@@ -3,16 +3,24 @@
 # Use Transcribt to transcribe all that pesky audio, faster and privately.
 # https://github.com/joelhans/Transcribt
 
-from	ubuntu
+from	ubuntu:precise
 
-run	apt-get update && apt-get install -q -y git rubygems
+run		echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list && apt-get update
+run		apt-get install -y python-software-properties
 
-run	gem install middleman
+run		add-apt-repository ppa:chris-lea/node.js && apt-get update
 
-run	git clone git://github.com/joelhans/Transcribt.git
+run		apt-get update && apt-get install -y git rubygems build-essential nodejs
 
-#expose	3000
+run		gem install bundle --no-rdoc --no-ri
 
-cmd	cd Transcribt/ ; middleman server
+run		git clone git://github.com/joelhans/Transcribt.git
 
+run 	sed -i "s/'redcarpet'/'redcarpet', '= 2.3.0'/" /Transcribt/Gemfile
+
+run		cd Transcribt/ ; bundle install
+
+expose	4567
+
+cmd		cd Transcribt/ ; middleman server --verbose
 
