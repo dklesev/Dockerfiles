@@ -2,6 +2,8 @@
 
 from	ubuntu
 
+env		DEBIAN_FRONTEND noninteractive
+
 run		apt-get install -y --no-install-recommends samba
 
 #add	smb.conf /etc/samba/

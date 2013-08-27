@@ -2,7 +2,9 @@
 # sudo docker build -t "yacy" .
 # sudo docker run -p :8090 yacy
  
-from ubuntu
+from	ubuntu
+
+env		DEBIAN_FRONTEND noninteractive
  
 run 	echo "deb http://debian.yacy.net ./" > /etc/apt/sources.list.d/yacy.list && apt-get update
 

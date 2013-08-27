@@ -2,11 +2,13 @@
 
 from    ubuntu:precise
 
+env		DEBIAN_FRONTEND noninteractive
+
 run		echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list.d/precise.list  && apt-get update
 
 run     apt-get install -y mumble-server libicu48
 
-# sed bandwidth=72000 /etc/mumble-server.ini
+#run	sed -i -e "/^bandwidth/s/72000/30000/" /etc/mumble-server.ini
 
 #volume		 /var/lib/mumble-server/
 

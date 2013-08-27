@@ -3,8 +3,10 @@
 
 from    ubuntu
 
+env		DEBIAN_FRONTEND noninteractive
+
 run     apt-get update && apt-get install -y openvpn
-# resolvconf openssl
+# 	resolvconf openssl
 
 run		cp -R /usr/share/doc/openvpn/examples/easy-rsa/ /etc/openvpn
 

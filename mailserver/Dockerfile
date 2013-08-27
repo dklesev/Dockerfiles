@@ -2,7 +2,6 @@
 
 from	ubuntu
 
-run		export DEBIAN_FRONTEND=noninteractive
 env		DEBIAN_FRONTEND noninteractive
 
 env		HOSTNAME mail.example.com

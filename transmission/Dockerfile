@@ -2,6 +2,8 @@
 
 from    ubuntu
 
+env		DEBIAN_FRONTEND noninteractive
+
 run     apt-get update && apt-get install -y transmission-daemon
 
 run		sed -i -e '/^OPTION/s/"$/ --foreground"/' /etc/default/transmission-daemon

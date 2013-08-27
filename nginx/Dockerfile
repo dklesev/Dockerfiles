@@ -2,6 +2,8 @@
 
 from	ubuntu
 
+env		DEBIAN_FRONTEND noninteractive
+
 run		apt-get install -y --no-install-recommends python-software-properties
 
 run		add-apt-repository -y ppa:nginx/stable && apt-get update

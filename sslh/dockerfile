@@ -5,6 +5,8 @@
 
 from ubuntu
 
+env		DEBIAN_FRONTEND noninteractive
+
 run		apt-get install libwrap0-dev libconfig8-dev wget
 
 #build-essential
