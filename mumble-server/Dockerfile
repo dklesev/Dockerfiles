@@ -2,7 +2,8 @@
 
 from    ubuntu:precise
 
-run		echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list && apt-get update
+run		echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list.d/precise.list  && apt-get update
+
 run     apt-get install -y mumble-server libicu48
 
 # sed bandwidth=72000 /etc/mumble-server.ini

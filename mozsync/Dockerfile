@@ -6,8 +6,9 @@
  
 from ubuntu:precise
 
-run echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
-run apt-get update && apt-get install -y python-dev mercurial sqlite3 python-virtualenv libssl-dev
+run echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list && apt-get update
+
+run apt-get install -y python-dev mercurial sqlite3 python-virtualenv libssl-dev
 run apt-get install -y build-essential
 run hg clone https://hg.mozilla.org/services/server-full
 run cd server-full && make build

@@ -4,8 +4,12 @@ from    ubuntu
 
 run     apt-get update
 
+run		echo "mail.example.com" > /etc/hostname
+#run	echo "" >> /etc/hosts
+
 run		apt-get install -y postfix libsasl2-2 sasl2-bin libsasl2-modules
 run		apt-get install -y dovecot-imapd dovecot-pop3d dovecot-common
+# spamassasin
 
 #volume	["/mail"]
 
@@ -13,6 +17,8 @@ run		apt-get install -y dovecot-imapd dovecot-pop3d dovecot-common
 #add	main.cf /etc/postfix/main.cf
 
 # /etc/default/saslauthd
+
+# push config?
 
 #expose	25
 # 25/2525/587/465/2526 --> SMTP

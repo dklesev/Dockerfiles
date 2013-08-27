@@ -2,7 +2,7 @@
 
 from    ubuntu
 
-run     apt-get install -y python-software-properties
+run		apt-get install -y --no-install-recommends python-software-properties
 
 run     add-apt-repository ppa:jcfp/ppa && apt-get update
 

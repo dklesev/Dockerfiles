@@ -2,7 +2,8 @@
 
 from	ubuntu
 
-run		apt-get update && apt-get install -y python-software-properties
+run		apt-get install -y --no-install-recommends python-software-properties
+
 run		add-apt-repository -y ppa:nginx/stable && apt-get update
 run		apt-get install -y nginx
 

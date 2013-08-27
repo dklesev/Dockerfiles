@@ -4,9 +4,10 @@
  
 from ubuntu
  
-run echo "deb http://debian.yacy.net ./" > /etc/apt/sources.list.d/yacy.list
-run apt-get update && apt-get install -y --force-yes yacy
+run 	echo "deb http://debian.yacy.net ./" > /etc/apt/sources.list.d/yacy.list && apt-get update
 
-expose 8090
+run		apt-get install -y --force-yes yacy
+
+expose 	8090
  
-cmd service yacy start && tail -f /var/log/yacy/yacy00.log
+cmd 	service yacy start && tail -f /var/log/yacy/yacy00.log
