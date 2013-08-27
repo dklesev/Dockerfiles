@@ -6,7 +6,7 @@
  
 from ubuntu:precise
 
-run echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list && apt-get update
+run		echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list.d/precise.list  && apt-get update
 
 run apt-get install -y python-dev mercurial sqlite3 python-virtualenv libssl-dev
 run apt-get install -y build-essential
