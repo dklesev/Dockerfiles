@@ -8,21 +8,29 @@ env		HOSTNAME mail.example.com
 
 run		echo "$HOSTNAME" > /etc/hostname
 
-run		apt-get install -y postfix libsasl2-2 sasl2-bin libsasl2-modules dovecot-imapd dovecot-pop3d dovecot-common spamassassin
+run		apt-get install -y --no-install-recommends mail-stack-delivery spamassassin
 
-#run		sed -i -e "/^127.0.1.1/s/$/ $HOSTNAME/" /etc/hosts
+run		sed -i -e "/^127.0.0.1/s/$/ $HOSTNAME/" /etc/hosts
 
-#volume	["/mail"]
+#volume	/var/lib/dovecot/
+#volume /var/lib/postfix/
+#volume	spamassassin rules?
 
-#add	dovecot.conf /etc/dovecot/dovecot.conf
-#add	main.cf /etc/postfix/main.cf
-#add 	spamassassin /etc/default/spamassassin
+#sed 	 /etc/dovecot/dovecot.conf
+
+# /etc/postfix/main.cf
+#smtpd_tls_cert_file = /etc/ssl/certs/ssl-mail.pem
+#smtpd_tls_key_file = /etc/ssl/private/ssl-mail.key
+
+
+run		sed -i -e "/^ENABLED/s/0/1/" /etc/default/spamassassin
+# run		sed -i -e "/^CRON/s/0/1/" /etc/default/spamassassin
 
 # /etc/default/saslauthd
 
 # push config?
 
-#expose	25
-# 25/2525/587/465/2526 --> SMTP
+expose	25
+#expose	2525/587/465/2526
 
-#cmd	service saslauthd start ; service postfix start ; service dovecot start ; tail -f /var/log
+cmd		service postfix start ; service spamassassin start ; /usr/sbin/dovecot -F -c /etc/dovecot/dovecot.conf
