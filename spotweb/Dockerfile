@@ -2,9 +2,12 @@
 
 from	ubuntu:precise
 
+run		export DEBIAN_FRONTEND=noninteractive
+env		DEBIAN_FRONTEND noninteractive
+
 run		echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list.d/precise.list  && apt-get update
 
-run		apt-get install -y git mysql-server mysql-client php5-mysql nginx php5-fpm
+run		apt-get install -y git php5-mysql nginx php5-fpm
 
 run		git clone https://github.com/spotweb/spotweb.git
 

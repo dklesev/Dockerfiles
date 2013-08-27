@@ -5,6 +5,9 @@
 
 from	ubuntu:precise
 
+run		export DEBIAN_FRONTEND=noninteractive
+env		DEBIAN_FRONTEND noninteractive
+
 run		echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list.d/precise.list  && apt-get update
 run		apt-get install -y --no-install-recommends python-software-properties
 
