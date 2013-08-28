@@ -1,6 +1,5 @@
 # KiwiIRC
 # One of the most feature complete web based IRC clients available
-# https://kiwiirc.com/
 # https://kiwiirc.com/docs/installing/proxies
 
 from	ubuntu:precise
@@ -14,12 +13,17 @@ run		add-apt-repository ppa:chris-lea/node.js && apt-get update
 
 run		apt-get install -y git nodejs
 
-run		git clone https://github.com/prawnsalad/KiwiIRC.git
+run		git clone https://github.com/prawnsalad/KiwiIRC.git kiwiirc
 
-run		cd KiwiIRC && npm install && cp config.example.js config.js
+run		cd kiwiirc && npm install && cp config.example.js config.js && ./kiwi build
 
-run		cd KiwiIRC && ./kiwi build
+run		sed -i -e "/^conf.http_proxies/s/]/,\"172.17.0.0\/16\"]/" /kiwiirc/config.js
+run		sed -i -e "/^show_timestamps/s/false/true/" /kiwiirc/config.js
+run		sed -i -e "/^mute_sounds/s/false/true/" /kiwiirc/config.js
+run		sed -i -e "/^conf.quit_message/s/\".*\"/\"Quit: Leaving\"/" /kiwiirc/config.js
+ 
+#volume	/kiwiirc
 
 expose	7778
 
-cmd		cd /KiwiIRC/ && ./kiwi -f
+cmd		/kiwiirc/kiwi -f

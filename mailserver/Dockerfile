@@ -18,19 +18,22 @@ run		sed -i -e "/^127.0.0.1/s/$/ $HOSTNAME/" /etc/hosts
 
 #sed 	 /etc/dovecot/dovecot.conf
 
-# /etc/postfix/main.cf
-#smtpd_tls_cert_file = /etc/ssl/certs/ssl-mail.pem
-#smtpd_tls_key_file = /etc/ssl/private/ssl-mail.key
+run		sed -i -e "/^protocols/s/ pop3//" /etc/dovecot/conf.d/01-mail-stack-delivery.conf
 
+#sed -i -e "/^mydestination/s/$/ $HOSTNAME/" /etc/postfix/main.cf
 
 run		sed -i -e "/^ENABLED/s/0/1/" /etc/default/spamassassin
 # run		sed -i -e "/^CRON/s/0/1/" /etc/default/spamassassin
 
-# /etc/default/saslauthd
-
 # push config?
 
 expose	25
+#expose 993
+#expose 143
+
 #expose	2525/587/465/2526
 
+run	apt-get install nano
+
 cmd		service postfix start ; service spamassassin start ; /usr/sbin/dovecot -F -c /etc/dovecot/dovecot.conf
+# ; tail -f /var/log/mail.err
