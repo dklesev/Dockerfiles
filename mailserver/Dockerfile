@@ -20,18 +20,32 @@ run		sed -i -e "/^127.0.0.1/s/$/ $HOSTNAME/" /etc/hosts
 
 run		sed -i -e "/^protocols/s/ pop3//" /etc/dovecot/conf.d/01-mail-stack-delivery.conf
 
-#sed -i -e "/^mydestination/s/$/ $HOSTNAME/" /etc/postfix/main.cf
+
+#run	sed -i -e "/^mydestination/s/$/ $HOSTNAME/" /etc/postfix/main.cf
+#mydomain
+#myhostname
+
+
+## Generate new ssl certificates and set in /etc/postfix/main.cf
+##smtpd_tls_cert_file = /etc/ssl/certs/ssl-mail.pem
+##smtpd_tls_key_file = /etc/ssl/private/ssl-mail.key
+
+## enable port 587 (submission)
+#run	sed -i -e "s/^#submission/submission/" /etc/postfix/master.cf
+## enable port 465 (smtps)
+#run	sed -i -e "s/^#smtps/smtps/" /etc/postfix/master.cf
+
 
 run		sed -i -e "/^ENABLED/s/0/1/" /etc/default/spamassassin
 # run		sed -i -e "/^CRON/s/0/1/" /etc/default/spamassassin
 
 # push config?
 
-expose	25
-#expose 993
-#expose 143
-
-#expose	2525/587/465/2526
+expose	25 #smtp
+#expose 993 #imaps
+#expose 143 #imap
+#expose 587 #submission
+#expose 465 #smtps
 
 run	apt-get install nano
 
