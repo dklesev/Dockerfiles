@@ -12,14 +12,14 @@ run		echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/ap
 
 run		apt-get install -y python-dev mercurial sqlite3 python-virtualenv libssl-dev
 run 	apt-get install -y build-essential
-run 	hg clone https://hg.mozilla.org/services/server-full
-run 	cd server-full && make build
-#run 	cd server-full && make test
-#run 	./bin/pip install pysqlite
+run 	hg clone https://hg.mozilla.org/services/server-full /usr/share/mozsync
+run 	cd /usr/share/mozsync && make build
+#run 	cd /usr/share/mozsync && make test
+#run 	cd /usr/share/mozsync/bin && pip install pysqlite
 
 expose 	5000
 
-# sed development.ini
+# append >> development.ini
 #[nodes]
 #fallback_node = http://localhost:5000/
 #[storage]
@@ -27,4 +27,4 @@ expose 	5000
 #[auth]
 #sqluri = sqlite:////path/to/database/file.db
  
-#cmd 	/bin/paster serve development.ini
+cmd 	cd /usr/share/mozsync/ ; bin/paster serve development.ini

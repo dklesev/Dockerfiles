@@ -13,9 +13,9 @@ run		add-apt-repository ppa:chris-lea/node.js && apt-get update
 
 run		apt-get install -q -y git nodejs build-essential
 
-run		git clone https://github.com/joelhans/Hark.git
-run		cd Hark ; npm install
+run		git clone https://github.com/joelhans/Hark.git /usr/share/hark
+run		cd /usr/share/hark ; npm install
 
 expose	3000
 
-cmd		node /Hark/app.js
+cmd		node /usr/share/hark/app.js
