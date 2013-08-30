@@ -4,7 +4,7 @@
 # sudo docker build -t "mozsync" .
 # sudo docker run -p :5000 mozsync
  
-from 	ubuntu:precise
+from	ubuntu:precise
 
 env		DEBIAN_FRONTEND noninteractive
 
