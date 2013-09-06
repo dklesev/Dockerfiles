@@ -40,9 +40,15 @@ export DISPLAY
 
 echo "starting xpra session"
 #sudo -u docker 
-xpra start $DISPLAY & sleep 5 ; DISPLAY=$DISPLAY firefox 
+#xpra start $DISPLAY & sleep 5 ; DISPLAY=$DISPLAY firefox
+#sudo -u docker xpra start :$DISPLAY --start-child=firefox
+xpra start :$DISPLAY
 #&
 
 #echo "attaching to xpra session"
 #xpra attach $DISPLAY
 
+
+### firefox.sh
+# xpra attach ssh:user@server$DISPLAY
+# DISPLAY=$DISPLAY firefox
