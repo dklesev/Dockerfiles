@@ -36,9 +36,13 @@ export DISPLAY
 #export SSH_AUTH_SOCK=/dev/null
 #export SSH_ASKPASS=/bin/false
 
+# update default useragent string?
+
 echo "starting xpra session"
 #sudo -u docker 
-xpra start :0 & sleep 5 ; DISPLAY=:0 firefox &
+xpra start $DISPLAY & sleep 5 ; DISPLAY=$DISPLAY firefox 
+#&
 
-echo "attaching to xpra session"
-xpra attach :0
+#echo "attaching to xpra session"
+#xpra attach $DISPLAY
+
