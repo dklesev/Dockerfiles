@@ -9,6 +9,10 @@ To build an image with docker is pretty simple:
 
     cd casperjs
     docker build -t="casperjs" .
+    
+Or without cloning the repository (if dockerfile has no file dependencies)
+
+    curl -s https://raw.github.com/Thermionix/Dockerfiles/master/casperjs/Dockerfile | sudo docker build -t="casperjs" -
 
 Then to run that image and attach to it at the same time:
 
