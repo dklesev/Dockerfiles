@@ -18,6 +18,7 @@ run		sed -i -e "/^127.0.0.1/s/$/ $HOSTNAME/" /etc/hosts
 
 #sed 	 /etc/dovecot/dovecot.conf
 
+# Disable POP3
 run		sed -i -e "/^protocols/s/ pop3//" /etc/dovecot/conf.d/01-mail-stack-delivery.conf
 
 
