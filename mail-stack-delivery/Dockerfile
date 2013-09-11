@@ -2,7 +2,7 @@
 # the mail-stack-delivery package will install Dovecot and configure Postfix to use it for both SASL authentication and as a Mail Delivery Agent (MDA). 
 # The package also configures Dovecot for IMAP, IMAPS, POP3, and POP3S.
 
-from	ubuntu
+from		ubuntu
 
 env		DEBIAN_FRONTEND noninteractive
 
@@ -50,15 +50,18 @@ run		sed -i -e "/^ENABLED/s/0/1/" /etc/default/spamassassin
 
 # android push config?
 
-volume /var/mail/
+volume 	/var/mail/
 #volume	spamassassin rules?
 
-expose 25 993 143 587 465
+expose 	25 993 143 587 465
 ##ports: 25 smtp   993 imaps   143 imap   587 submission   465 smtps
 
-cmd		/usr/sbin/rsyslogd ; service postfix start ; service spamassassin start ; /usr/sbin/dovecot -c /etc/dovecot/dovecot.conf ; tail -f /var/log/mail.err
+run		echo -e "#!/bin/bash\n/usr/sbin/rsyslogd && service postfix start && service spamassassin start && /usr/sbin/dovecot -c /etc/dovecot/dovecot.conf && tail -f /var/log/mail.log" > /bin/mailserver
+run		chmod +x /bin/mailserver
+cmd		/bin/mailserver
 
 ## development lines;
 run	apt-get install nano
-# /usr/sbin/rsyslogd && service postfix start && service spamassassin start && /usr/sbin/dovecot -c /etc/dovecot/dovecot.conf && ss -ln && tail /var/log/mail.log
-
+# sudo docker build -t "mailserver" .
+# sudo docker run -i -t mailserver /bin/bash
+# sudo docker run -p 25:25 -p 993:993 -p 143:143 -p 587:587 -p 465:465 mailserver
