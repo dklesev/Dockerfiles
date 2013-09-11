@@ -1,53 +1,64 @@
-# mail-stack-delivery (Dovecot+Postfix) & spamassassin
+# mail-stack-delivery + spamassassin
+# the mail-stack-delivery package will install Dovecot and configure Postfix to use it for both SASL authentication and as a Mail Delivery Agent (MDA). 
+# The package also configures Dovecot for IMAP, IMAPS, POP3, and POP3S.
 
 from	ubuntu
 
 env		DEBIAN_FRONTEND noninteractive
 
-env		HOSTNAME mail.example.com
+env		DOMAIN example.com
+env		HOSTNAME mail.$DOMAIN
+env		SSLSUBJ	/C=AU/ST=VIC/L=Melbourne/O=Dis/CN=$DOMAIN
 
 run		echo "$HOSTNAME" > /etc/hostname
+run		echo "$DOMAIN" > /etc/mailname
 
-run		apt-get install -y --no-install-recommends mail-stack-delivery spamassassin
+## disable upstart
+run		dpkg-divert --local --rename --add /sbin/initctl && ln -s /bin/true /sbin/initctl
 
+run		apt-get install -y --no-install-recommends netbase
 run		sed -i -e "/^127.0.0.1/s/$/ $HOSTNAME/" /etc/hosts
 
-#sed 	 /etc/dovecot/dovecot.conf
+run		apt-get install -y --no-install-recommends mail-stack-delivery spamassassin rsyslog
 
-## Disable POP3
+## disable POP3
 run		sed -i -e "/^protocols/s/ pop3//" /etc/dovecot/conf.d/01-mail-stack-delivery.conf
+## disable sieve
+run		sed -i -e "/^protocols/s/ sieve//" /etc/dovecot/conf.d/01-mail-stack-delivery.conf
+## store mail under /var/mail
+run		sed -i -e "\#^mail_location#s#~/Maildir#/var/mail/%u#" /etc/dovecot/conf.d/01-mail-stack-delivery.conf
 
+## comment out home_mailbox line
+run		sed -i -e "/^home_mailbox/s/^/#/" /etc/postfix/main.cf
+## append   mail_spool_directory
+run		echo "mail_spool_directory = /var/mail" >> /etc/postfix/main.cf
 
-#run	sed -i -e "/^mydestination/s/$/ $HOSTNAME/" /etc/postfix/main.cf
-#mydomain
-#myhostname
-
-
-## Generate new ssl certificates?
-## set in /etc/postfix/main.cf
-##smtpd_tls_cert_file = /etc/ssl/certs/ssl-mail.pem
-##smtpd_tls_key_file = /etc/ssl/private/ssl-mail.key
+## generate new certificate
+run		rm /etc/ssl/certs/ssl-mail.pem
+run		rm /etc/ssl/private/ssl-mail.key
+run		openssl req -new -newkey rsa:4096 -x509 -days 3650 -nodes -subj "$SSLSUBJ" -out /etc/ssl/certs/ssl-mail.pem -keyout /etc/ssl/private/ssl-mail.key
 
 ## enable port 587 (submission)
 run		sed -i -e "s/^#submission/submission/" /etc/postfix/master.cf
 ## enable port 465 (smtps)
 run		sed -i -e "s/^#smtps/smtps/" /etc/postfix/master.cf
 
-
+## enable spamassassin daemon
 run		sed -i -e "/^ENABLED/s/0/1/" /etc/default/spamassassin
 ## enable cron update of spamassassin rules
 # run		sed -i -e "/^CRON/s/0/1/" /etc/default/spamassassin
 
 # android push config?
 
-#volume	/var/lib/dovecot/
-#volume /var/lib/postfix/
+volume /var/mail/
 #volume	spamassassin rules?
 
 expose 25 993 143 587 465
-##ports: 25 smtp 993 imaps 143 imap 587 submission 465 smtps
+##ports: 25 smtp   993 imaps   143 imap   587 submission   465 smtps
 
+cmd		/usr/sbin/rsyslogd ; service postfix start ; service spamassassin start ; /usr/sbin/dovecot -c /etc/dovecot/dovecot.conf ; tail -f /var/log/mail.err
+
+## development lines;
 run	apt-get install nano
+# /usr/sbin/rsyslogd && service postfix start && service spamassassin start && /usr/sbin/dovecot -c /etc/dovecot/dovecot.conf && ss -ln && tail /var/log/mail.log
 
-cmd		service postfix start ; service spamassassin start ; /usr/sbin/dovecot -F -c /etc/dovecot/dovecot.conf
-# ; tail -f /var/log/mail.err
