@@ -50,10 +50,10 @@ run		sed -i -e "/^ENABLED/s/0/1/" /etc/default/spamassassin
 
 # android push config?
 
-volume 	/var/mail/
+volume 		/var/mail/
 #volume	spamassassin rules?
 
-expose 	25 993 143 587 465
+expose 		25 993 143 587 465
 ##ports: 25 smtp   993 imaps   143 imap   587 submission   465 smtps
 
 run		echo -e "#!/bin/bash\n/usr/sbin/rsyslogd && service postfix start && service spamassassin start && /usr/sbin/dovecot -c /etc/dovecot/dovecot.conf && tail -f /var/log/mail.log" > /bin/mailserver
