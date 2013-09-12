@@ -2,18 +2,18 @@
 # Hark is your personal radio station. Podcasts. Radio. Revolutionized.
 # https://github.com/joelhans/Hark
 
-from	ubuntu:precise
-
+from	ubuntu:12.10
+ 
 env		DEBIAN_FRONTEND noninteractive
 
-run		echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list.d/precise.list  && apt-get update
-run		apt-get install -y --no-install-recommends python-software-properties
+run		apt-get install -y --no-install-recommends software-properties-common
 
-run		add-apt-repository ppa:chris-lea/node.js && apt-get update
+run		apt-add-repository -y ppa:chris-lea/node.js && apt-get update
 
-run		apt-get install -q -y git nodejs build-essential
+run		apt-get install -q -y git nodejs build-essential python
 
 run		git clone https://github.com/joelhans/Hark.git /usr/share/hark
+
 run		cd /usr/share/hark ; npm install
 
 expose	3000
