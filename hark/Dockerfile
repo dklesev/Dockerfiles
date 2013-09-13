@@ -16,6 +16,8 @@ run		git clone https://github.com/joelhans/Hark.git /usr/share/hark
 
 run		cd /usr/share/hark ; npm install
 
+volume 	/usr/share/hark
+
 expose	3000
 
 cmd		node /usr/share/hark/app.js
