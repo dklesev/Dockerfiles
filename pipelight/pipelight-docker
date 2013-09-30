@@ -1,29 +1,33 @@
 #!/bin/bash
 
-#command -v docker || exit 1
+command -v docker || exit 1
 
 #command -v ssh || exit 1
 
-#if ! -F ~/.ssh/id_rsa && ssh-keygen
+#if ! -F ~/.ssh/id_rsa.pub && ssh-keygen
 
+# if ! -f id_rsa.pub
+# cp ~/.ssh/id_rsa.pub .
 
 IMAGENAME=pipelight
 
 ## if not docker image tagged pipelight exist
 ## create image pipelight
 
-sudo docker inspect $IMAGENAME 2>&1 | grep -q "No such image"
-if [ $? -eq 0 ];then
-  echo "#Couldn't find image $IMAGENAME, will attempt to build"
-  read -p "Press [Enter] key to continue"
-  curl https://raw.github.com/Thermionix/Dockerfiles/master/pipelight/Dockerfile | docker build -t "$IMAGENAME" -
-fi
+#sudo docker inspect $IMAGENAME 2>&1 | grep -q "No such image"
+#if [ $? -eq 0 ];then
+#  echo "#Couldn't find image $IMAGENAME, will attempt to build"
+#  read -p "Press [Enter] key to continue"
+#  curl https://raw.github.com/Thermionix/Dockerfiles/master/pipelight/Dockerfile | docker build -t "$IMAGENAME" -
+#fi
 
 ## check pipelight image
-# docker run pipelight echo "Ahoy Matey" | grep "^Ahoy"
+# sudo docker run pipelight echo "Ahoy Matey" | grep "^Ahoy"
 
-#cd ~/git/Dockerfiles/pipelight
-#sudo docker build -t "$IMAGENAME" .
+cd ~/git/Dockerfiles/pipelight
+sudo docker build -t "$IMAGENAME" .
+
+# rm id_rsa.pub
 
 JOB=$(sudo docker run -d $IMAGENAME)
 #JOB=$(sudo docker run -d -i -t $IMAGENAME /bin/bash)
@@ -40,11 +44,6 @@ sleep 5
 PASS=$(sudo docker logs $JOB | grep -P -m 1 "^sshpass" | cut -f2 -d" ")
 #DISPLAY=$(sudo docker logs $JOB | grep -P -m 1 "^display" | cut -f2 -d" ")
 
-echo -e "attach with password: $PASS \n"
-#xpra attach ssh:docker@$IPADDR:8 --ssh="ssh -oStrictHostKeyChecking=no -oCheckHostIP=no"
-echo "ssh -X -oStrictHostKeyChecking=no -oCheckHostIP=no docker@$IPADDR"
-# -p $PORT
-
 #Prefs.js
 #user_pref("general.useragent.override","Some string");
 #Mozilla/5.0 (Windows NT 6.1; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0
@@ -56,6 +55,6 @@ echo "ssh -X -oStrictHostKeyChecking=no -oCheckHostIP=no docker@$IPADDR"
 ## when firefox closed, kill docker container
 # export LIBGL_ALWAYS_INDIRECT=0 && firefox
 
-echo -e "\nwill stop container: $JOB"
-read -p "Press [Enter] key to continue"
+ssh -X -oStrictHostKeyChecking=no -oCheckHostIP=no docker@$IPADDR firefox
+
 sudo docker stop $JOB

@@ -26,22 +26,30 @@ run 	apt-get install -y --force-yes pipelight wine-silverlight5.1-installer wine
 run		sed -i 's/DisplayManager.requestPort/!DisplayManager.requestPort/g' /etc/X11/xdm/xdm-config
 run		sed -i '/#any host/c\*' /etc/X11/xdm/Xaccess
 run		ln -s /usr/bin/Xorg /usr/bin/X
+
 run		echo "X11Forwarding yes" >> /etc/ssh/ssh_config
+run		echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
+
+#RSAAuthentication yes
+#PubkeyAuthentication yes
+#ChallengeResponseAuthentication no
+#PasswordAuthentication no
+#UsePAM no
 
 run		mkdir -p /var/run/sshd
 
-env		SSH_AUTH_SOCK /dev/null
-env		SSH_ASKPASS /bin/false
-#env		DISPLAY :8
-#env		LIBGL_ALWAYS_INDIRECT 1
+#volume	/home/docker/
 
-volume	/home/docker
+run		mkdir -p /home/docker/.ssh
+run		useradd -M -s /bin/bash -d /home/docker docker
+run		sed -Ei 's/adm:x:4:/docker:x:4:docker/' /etc/group
 
-add		launch.sh /bin/setup.sh
-run		chmod +x /bin/setup.sh
-#add 	~/.ssh/id_rsa /home/docker/.ssh/id_rsa 
+add 	id_rsa.pub /home/docker/.ssh/authorized_keys
+run		chmod 0640 /home/docker/.ssh/authorized_keys
+
+run		chown -R docker:docker /home/docker
 
 #expose	22
 
-cmd		/bin/setup.sh
+cmd		/etc/init.d/xdm start ; /usr/sbin/sshd -D
 
