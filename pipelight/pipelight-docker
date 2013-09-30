@@ -23,8 +23,8 @@ IMAGENAME=pipelight
 ## check pipelight image
 # sudo docker run pipelight echo "Ahoy Matey" | grep "^Ahoy"
 
-cd ~/git/Dockerfiles/pipelight
-sudo docker build -t "$IMAGENAME" .
+#cd ~/git/Dockerfiles/pipelight
+#sudo docker build -t "$IMAGENAME" .
 
 # rm id_rsa.pub
 
@@ -54,6 +54,6 @@ PASS=$(sudo docker logs $JOB | grep -P -m 1 "^sshpass" | cut -f2 -d" ")
 ## when firefox closed, kill docker container
 # export LIBGL_ALWAYS_INDIRECT=0 && firefox
 
-ssh -X -oStrictHostKeyChecking=no -oCheckHostIP=no docker@$IPADDR firefox
+ssh -X -oStrictHostKeyChecking=no -oCheckHostIP=no docker@$IPADDR firefox about:plugins
 
 sudo docker stop $JOB
