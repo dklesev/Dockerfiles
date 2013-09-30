@@ -21,7 +21,7 @@ IMAGENAME=pipelight
 #fi
 
 ## check pipelight image
-# sudo docker run pipelight echo "Ahoy Matey" | grep "^Ahoy"
+# sudo docker run pipelight echo "checkcheck" | grep "^checkcheck"
 
 #cd ~/git/Dockerfiles/pipelight
 #sudo docker build -t "$IMAGENAME" .
@@ -29,29 +29,18 @@ IMAGENAME=pipelight
 # rm id_rsa.pub
 
 JOB=$(sudo docker run -d $IMAGENAME)
-#JOB=$(sudo docker run -d -i -t $IMAGENAME /bin/bash)
-#PORT=$(sudo docker port $JOB 22)
 
 IPADDR=$(sudo docker inspect $JOB | grep IPAd | awk -F'"' '{print $4}')
-#IPAddress": "172.17.3.48"
 
-#echo -e "image: $IMAGENAME container: $JOB accesible on port: $PORT\n"
 echo -e "image: $IMAGENAME container: $JOB accesible on ip: $IPADDR\n"
 
-sleep 5
-
-PASS=$(sudo docker logs $JOB | grep -P -m 1 "^sshpass" | cut -f2 -d" ")
-#DISPLAY=$(sudo docker logs $JOB | grep -P -m 1 "^display" | cut -f2 -d" ")
-
 #Prefs.js
-#user_pref("general.useragent.override","Some string");
-#Mozilla/5.0 (Windows NT 6.1; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0
+#user_pref("general.useragent.override","Mozilla/5.0 (Windows NT 6.1; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0");
 
 # check about:plugins for pipelight
-#test silverlight: http://bubblemark.com/silverlight2.html
-# -Z %1 first param as query string? e.g. http://atwar-game.com/play/
+# test silverlight: http://bubblemark.com/silverlight2.html
+# %1 first param as query string? e.g. http://atwar-game.com/play/
 
-## when firefox closed, kill docker container
 # export LIBGL_ALWAYS_INDIRECT=0 && firefox
 
 ssh -X -oStrictHostKeyChecking=no -oCheckHostIP=no docker@$IPADDR firefox about:plugins
