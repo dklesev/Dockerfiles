@@ -2,12 +2,11 @@
 
 command -v docker || exit 1
 
-#command -v ssh || exit 1
+command -v ssh || exit 1
 
-#if ! -F ~/.ssh/id_rsa.pub && ssh-keygen
+[ -f ~/.ssh/id_rsa.pub ] || { echo "please use ssh-keygen to generate an ssh key" ; exit 1 ; }
 
-# if ! -f id_rsa.pub
-# cp ~/.ssh/id_rsa.pub .
+[ -f id_rsa.pub ] || cp ~/.ssh/id_rsa.pub .
 
 IMAGENAME=pipelight
 
