@@ -21,25 +21,27 @@ run 	localedef -v -c -i en_US -f UTF-8 en_US.UTF-8 || :
 run 	apt-add-repository -y ppa:mqchael/pipelight
 run 	apt-add-repository -y ppa:ehoover/compholio
 run		apt-get update
-run		apt-get install -y --no-install-recommends wine-silverlight5.1-installer wine-compholio
-run 	apt-get install -y --force-yes --no-install-recommends pipelight
+run 	apt-get install -y --force-yes pipelight wine-silverlight5.1-installer wine-compholio wine-mpg2splt-installer
 
 run		sed -i 's/DisplayManager.requestPort/!DisplayManager.requestPort/g' /etc/X11/xdm/xdm-config
 run		sed -i '/#any host/c\*' /etc/X11/xdm/Xaccess
 run		ln -s /usr/bin/Xorg /usr/bin/X
 run		echo "X11Forwarding yes" >> /etc/ssh/ssh_config
 
-add		launch.sh	/home/docker/launch.sh
-run		chmod +x /home/docker/launch.sh
+run		mkdir -p /var/run/sshd
+
+env		SSH_AUTH_SOCK /dev/null
+env		SSH_ASKPASS /bin/false
+#env		DISPLAY :8
+#env		LIBGL_ALWAYS_INDIRECT 1
+
+volume	/home/docker
+
+add		launch.sh /bin/setup.sh
+run		chmod +x /bin/setup.sh
 #add 	~/.ssh/id_rsa /home/docker/.ssh/id_rsa 
 
 #expose	22
 
-cmd		/home/docker/launch.sh
-
-# check about:plugins for pipelight
-
-#test silverlight: http://bubblemark.com/silverlight2.html
-
-# launch.sh first param as query string? e.g. http://atwar-game.com/play/
+cmd		/bin/setup.sh
 
