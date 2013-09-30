@@ -1,12 +1,12 @@
 #!/bin/bash
 
-command -v docker || exit 1
+command -v docker || { echo "please install docker" ; exit 1 ; }
 
-command -v ssh || exit 1
+command -v ssh || { echo "please install ssh" ; exit 1 ; }
 
 [ -f ~/.ssh/id_rsa.pub ] || { echo "please use ssh-keygen to generate an ssh key" ; exit 1 ; }
 
-[ -f id_rsa.pub ] || cp ~/.ssh/id_rsa.pub .
+#[ -f id_rsa.pub ] || cp ~/.ssh/id_rsa.pub .
 
 IMAGENAME=pipelight
 
@@ -23,8 +23,8 @@ IMAGENAME=pipelight
 ## check pipelight image
 # sudo docker run pipelight echo "checkcheck" | grep "^checkcheck"
 
-#cd ~/git/Dockerfiles/pipelight
-#sudo docker build -t "$IMAGENAME" .
+cd ~/git/Dockerfiles/pipelight
+sudo docker build -t "$IMAGENAME" .
 
 # rm id_rsa.pub
 
