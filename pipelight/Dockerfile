@@ -1,4 +1,4 @@
-# Pipelight in firefox accessible via x11 fowarding
+# dockerized pipelight accessible via x11 fowarding
 
 from	ubuntu:12.10
  
@@ -46,6 +46,12 @@ run		sed -Ei 's/adm:x:4:/docker:x:4:docker/' /etc/group
 run		touch /home/docker/.ssh/authorized_keys
 run		chmod 0640 /home/docker/.ssh/authorized_keys
 
+#run		echo "export LIBGL_ALWAYS_INDIRECT=0" > /home/docker/.ssh/rc
+
+run		mkdir -p /home/docker/.config
+run		cp /usr/share/pipelight/pipelight /home/docker/.config/pipelight
+run		echo -e "\noverwriteArg = enableGPUAcceleration=true" >> /home/docker/.config/pipelight
+
 run		chown -R docker:docker /home/docker
 
 run		echo "#!/bin/bash" > /usr/bin/start
@@ -54,7 +60,3 @@ run		echo "echo \"\$1\" >> /home/docker/.ssh/authorized_keys" >> /usr/bin/start
 run		echo "/etc/init.d/xdm start && /usr/sbin/sshd -D" >> /usr/bin/start
 run		chmod +x /usr/bin/start
 entrypoint		["/usr/bin/start"]
-
-run		mkdir -p /home/docker/.config
-run		cp /usr/share/pipelight/pipelight /home/docker/.config/pipelight
-run		echo -e "\noverwriteArg = enableGPUAcceleration=true" >> /home/docker/.config/pipelight

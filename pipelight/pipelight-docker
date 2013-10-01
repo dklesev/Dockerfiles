@@ -28,12 +28,13 @@ echo -e "image: $IMAGENAME container: $JOB accesible on ip: $IPADDR\n"
 # $1 first param as query string? 
 #e.g. http://atwar-game.com/play/
 #test silverlight: http://bubblemark.com/silverlight2.html
-#default to about:plugins
+#firefox default to about:plugins
 
 remotecmd="export LIBGL_ALWAYS_INDIRECT=0"
-remotecmd+=" && export LIBGL_DEBUG=verbose"
-remotecmd+=" && glxinfo | grep OpenGL"
-#remotecmd+=" && firefox about:plugins"
-ssh -XC -c blowfish-cbc,arcfour -oStrictHostKeyChecking=no -oCheckHostIP=no docker@$IPADDR $remotecmd
+#remotecmd+=" && export LIBGL_DEBUG=verbose"
+#remotecmd+=" && glxinfo | grep OpenGL"
+#remotecmd+=" && glxinfo | grep direct"
+#remotecmd+=" && midori"
+ssh -XC -t -c blowfish-cbc,arcfour -oStrictHostKeyChecking=no -oCheckHostIP=no docker@$IPADDR $remotecmd
 
 sudo docker stop $JOB
