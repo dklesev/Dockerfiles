@@ -10,11 +10,7 @@ run		dpkg --add-architecture i386 && apt-get update
 
 run		dpkg-divert --local --rename --add /sbin/initctl && ln -s /bin/true /sbin/initctl
 
-run		apt-get install -y ssh pwgen 
-
-run		apt-get install -y --no-install-recommends xpra xdm libxrandr2
-
-run 	apt-get install -y --no-install-recommends firefox
+run		apt-get install -y --no-install-recommends xpra xdm libxrandr2 ssh
 
 run 	localedef -v -c -i en_US -f UTF-8 en_US.UTF-8 || :
 
@@ -22,6 +18,9 @@ run 	apt-add-repository -y ppa:mqchael/pipelight
 run 	apt-add-repository -y ppa:ehoover/compholio
 run		apt-get update
 run 	apt-get install -y --force-yes pipelight wine-silverlight5.1-installer wine-compholio wine-mpg2splt-installer
+
+run 	apt-get install -y --no-install-recommends midori
+#firefox
 
 run		sed -i 's/DisplayManager.requestPort/!DisplayManager.requestPort/g' /etc/X11/xdm/xdm-config
 run		sed -i '/#any host/c\*' /etc/X11/xdm/Xaccess
@@ -49,7 +48,13 @@ run		chmod 0640 /home/docker/.ssh/authorized_keys
 
 run		chown -R docker:docker /home/docker
 
-add		start /usr/bin/start
+run		echo "#!/bin/bash" > /usr/bin/start
+run		echo "[[ -z \"\$1\" ]] && { echo \"please provide ssh key to start\" ; exit 1 ; }" >> /usr/bin/start
+run		echo "echo \"\$1\" >> /home/docker/.ssh/authorized_keys" >> /usr/bin/start
+run		echo "/etc/init.d/xdm start && /usr/sbin/sshd -D" >> /usr/bin/start
 run		chmod +x /usr/bin/start
 entrypoint		["/usr/bin/start"]
 
+run		mkdir -p /home/docker/.config
+run		cp /usr/share/pipelight/pipelight /home/docker/.config/pipelight
+run		echo -e "\noverwriteArg = enableGPUAcceleration=true" >> /home/docker/.config/pipelight
