@@ -10,15 +10,12 @@ IMAGENAME=pipelight
 
 if sudo docker inspect $IMAGENAME 2>&1 | grep -q "No such image" ; then
 	echo "## Couldn't find image $IMAGENAME, will attempt to build"
-	read -p "Press [Enter] key to continue"
-	#wget https://raw.github.com/Thermionix/Dockerfiles/master/pipelight/Dockerfile
-	#wget https://raw.github.com/Thermionix/Dockerfiles/master/pipelight/start
+	[ -f Dockerfile ] || wget https://raw.github.com/Thermionix/Dockerfiles/master/pipelight/Dockerfile
+	[ -f start ] || wget https://raw.github.com/Thermionix/Dockerfiles/master/pipelight/start
 	sudo docker build -t "$IMAGENAME" .
 fi
 
-exit 0
 # sudo docker run pipelight echo "checkcheck" | grep "^checkcheck"
-
 
 JOB=$(sudo docker run -d $IMAGENAME "`cat ~/.ssh/id_rsa.pub`")
 
