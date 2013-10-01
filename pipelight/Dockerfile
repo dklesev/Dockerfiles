@@ -44,13 +44,12 @@ run		mkdir -p /home/docker/.ssh
 run		useradd -M -s /bin/bash -d /home/docker docker
 run		sed -Ei 's/adm:x:4:/docker:x:4:docker/' /etc/group
 
-#add 	id_rsa.pub /home/docker/.ssh/authorized_keys
 run		touch /home/docker/.ssh/authorized_keys
 run		chmod 0640 /home/docker/.ssh/authorized_keys
 
 run		chown -R docker:docker /home/docker
 
-#expose	22
-
-cmd		cat ~/.ssh/id_rsa.pub > /home/docker/.ssh/authorized_keys ; /etc/init.d/xdm start ; /usr/sbin/sshd -D
+add		start /usr/bin/start
+run		chmod +x /usr/bin/start
+entrypoint		["/usr/bin/start"]
 

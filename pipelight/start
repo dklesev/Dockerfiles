@@ -1,0 +1,5 @@
+#!/bin/bash
+[[ -z "$1" ]] && { echo "please provide ssh key to start" ; exit 1 ; }
+echo "$1" >> /home/docker/.ssh/authorized_keys 
+/etc/init.d/xdm start 
+/usr/sbin/sshd -D

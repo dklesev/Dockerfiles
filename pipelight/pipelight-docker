@@ -28,7 +28,7 @@ sudo docker build -t "$IMAGENAME" .
 
 # rm id_rsa.pub
 
-JOB=$(sudo docker run -d $IMAGENAME)
+JOB=$(sudo docker run -d $IMAGENAME "`cat ~/.ssh/id_rsa.pub`")
 
 IPADDR=$(sudo docker inspect $JOB | grep IPAd | awk -F'"' '{print $4}')
 
