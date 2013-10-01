@@ -14,7 +14,7 @@ if sudo docker inspect $IMAGENAME 2>&1 | grep -q "No such image" ; then
 fi
 
 # sudo docker run pipelight echo "checkcheck" | grep "^checkcheck"
-sudo docker build -t "$IMAGENAME" .
+#sudo docker build -t "$IMAGENAME" .
 
 JOB=$(sudo docker run -d $IMAGENAME "`cat ~/.ssh/id_rsa.pub`")
 
@@ -34,7 +34,7 @@ remotecmd="export LIBGL_ALWAYS_INDIRECT=0"
 #remotecmd+=" && export LIBGL_DEBUG=verbose"
 #remotecmd+=" && glxinfo | grep OpenGL"
 #remotecmd+=" && glxinfo | grep direct"
-#remotecmd+=" && midori"
-ssh -XC -t -c blowfish-cbc,arcfour -oStrictHostKeyChecking=no -oCheckHostIP=no docker@$IPADDR $remotecmd
+remotecmd+=" && midori"
+ssh -XCt -c blowfish-cbc,arcfour -oStrictHostKeyChecking=no -oCheckHostIP=no docker@$IPADDR $remotecmd
 
 sudo docker stop $JOB
