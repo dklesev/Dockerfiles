@@ -27,3 +27,5 @@ run 	tar -xvf sslh-1.15-1-x86_64.pkg.tar.xz usr/bin/sslh-select
 #
 
 # --transparent
+
+# sudo docker run -d -privileged=true sslh
