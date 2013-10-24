@@ -3,7 +3,7 @@ Dockerfiles
 
 Use with Docker http://www.docker.io
 
-Please note several of these entries are still in development
+Most of the entries in this repo are in development, I've moved the more completed ones into there own repositories
 
 To build an image with docker is pretty simple:
 
